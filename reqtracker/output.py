@@ -1,23 +1,35 @@
 # reqtracker/output.py
-
+from typing import Set
 from pathlib import Path
-from typing import List
 
-def write_requirements_file(filepath: str, dependencies: List[str]) -> None:
+
+def write_requirements_file(dependencies: Set[str], output_path: Path) -> None:
     """
-    Writes a list of dependencies to a requirements file.
+    Writes a set of dependencies to a requirements.txt file.
 
-    Args:
-        filepath (str): The path to the requirements file (e.g., "requirements.txt").
-        dependencies (List[str]): A sorted list of dependency names (e.g., ["numpy", "pandas"]).
+    :param dependencies: A set of dependency names.
+    :param output_path: The Path object for the output file.
     """
     try:
-        output_path = Path(filepath)
         output_path.parent.mkdir(parents=True, exist_ok=True)
-
-        with open(output_path, 'w') as f:
-            for dep in dependencies:
+        with open(output_path, 'w', encoding='utf-8') as f:
+            for dep in sorted(list(dependencies)):
                 f.write(f"{dep}\n")
-        print(f"Successfully wrote {len(dependencies)} dependencies to '{filepath}'.")
+        print(f"Successfully wrote {len(dependencies)} dependencies to '{output_path}'.")
     except IOError as e:
-        print(f"Error: Could not write to requirements file '{filepath}'. {e}")
+        print(f"Error: Could not write to requirements file '{output_path}'. Error: {e}")
+
+
+def print_dependencies(dependencies: Set[str]) -> None:
+    """
+    Prints a set of dependencies to the console.
+
+    :param dependencies: A set of dependency names.
+    """
+    print("\n--- Detected Dependencies ---")
+    if not dependencies:
+        print("No third-party dependencies found.")
+    else:
+        for dep in sorted(list(dependencies)):
+            print(dep)
+    print("-----------------------------\n")

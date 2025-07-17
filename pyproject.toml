@@ -1,0 +1,41 @@
+# pyproject.toml
+
+[project]
+name = "reqtracker"
+version = "0.0.1"
+description = "Automatically detect and manage Python dependencies."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Oleksii Shcherbak", email = "oleksii_shcherbak@icloud.com" }
+]
+keywords = ["dependencies", "requirements", "package management", "automation"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = [
+    "toml"
+]
+
+[project.urls]
+Homepage = "https://github.com/oleksii-shcherbak/reqtracker"
+Issues = "https://github.com/oleksii-shcherbak/reqtracker/issues"
+Source = "https://github.com/oleksii-shcherbak/reqtracker"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "toml"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["reqtracker*"]
+
+[tool.setuptools.package-data]
+"reqtracker" = ["py.typed"]

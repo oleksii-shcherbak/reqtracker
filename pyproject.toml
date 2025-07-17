@@ -2,7 +2,7 @@
 
 [project]
 name = "reqtracker"
-version = "0.0.1"
+version = "0.1.0"
 description = "Automatically detect and manage Python dependencies."
 readme = "README.md"
 requires-python = ">=3.8"

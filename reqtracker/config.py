@@ -4,7 +4,7 @@ from pathlib import Path
 import toml
 from typing import List, Optional, Dict, Any
 
-class Config:
+class ReqtrackerConfig:
     """
     Manages reqtracker configuration, merging defaults, .reqtracker.toml,
     and inline overrides.

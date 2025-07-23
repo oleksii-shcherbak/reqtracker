@@ -12,7 +12,37 @@ IMPORT_TO_PACKAGE = {
     "skimage": "scikit-image",
     # Scientific computing
     "sklearn": "scikit-learn",
-    # Other common mappings
+    "scipy": "scipy",
+    "numpy": "numpy",
+    "pandas": "pandas",
+    # Web frameworks
+    "flask": "Flask",
+    "django": "Django",
+    "fastapi": "fastapi",
+    # Database
+    "MySQLdb": "mysqlclient",
+    "psycopg2": "psycopg2-binary",
+    "pymongo": "pymongo",
+    "redis": "redis",
+    "sqlalchemy": "SQLAlchemy",
+    # Data formats
     "yaml": "PyYAML",
     "bs4": "beautifulsoup4",
+    "lxml": "lxml",
+    "openpyxl": "openpyxl",
+    "docx": "python-docx",
+    "PyPDF2": "PyPDF2",
+    # Testing
+    "pytest": "pytest",
+    "nose": "nose",
+    "mock": "mock",
+    # Other common mappings
+    "dotenv": "python-dotenv",
+    "jwt": "PyJWT",
+    "cryptography": "cryptography",
+    "requests": "requests",
+    "click": "click",
+    "tqdm": "tqdm",
+    "colorama": "colorama",
+    "dateutil": "python-dateutil",
 }

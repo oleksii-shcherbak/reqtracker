@@ -54,3 +54,36 @@ class TestIsStandardLibrary:
         assert is_standard_library("zipfile")
         assert is_standard_library("dataclasses")
         assert is_standard_library("asyncio")
+
+
+class TestNormalizePackageName:
+    """Test cases for normalize_package_name function."""
+
+    def test_lowercase_conversion(self):
+        """Test that package names are converted to lowercase."""
+        from src.reqtracker.utils import normalize_package_name
+
+        assert normalize_package_name("Django") == "django"
+        assert normalize_package_name("Flask") == "flask"
+        assert normalize_package_name("PyYAML") == "pyyaml"
+
+    def test_underscore_replacement(self):
+        """Test that underscores are replaced with hyphens."""
+        from src.reqtracker.utils import normalize_package_name
+
+        assert normalize_package_name("python_dateutil") == "python-dateutil"
+        assert normalize_package_name("my_package") == "my-package"
+
+    def test_dot_replacement(self):
+        """Test that dots are replaced with hyphens."""
+        from src.reqtracker.utils import normalize_package_name
+
+        assert normalize_package_name("backports.csv") == "backports-csv"
+        assert normalize_package_name("zope.interface") == "zope-interface"
+
+    def test_multiple_separators(self):
+        """Test that multiple separators are collapsed."""
+        from src.reqtracker.utils import normalize_package_name
+
+        assert normalize_package_name("my..package__name") == "my-package-name"
+        assert normalize_package_name("test---pkg") == "test-pkg"

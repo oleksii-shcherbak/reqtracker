@@ -4,6 +4,8 @@ This module provides helper functions for package name resolution
 and import-to-package mapping.
 """
 
+import re
+
 from src.reqtracker.mappings import IMPORT_TO_PACKAGE
 
 
@@ -127,3 +129,22 @@ def is_standard_library(module_name: str) -> bool:
     # Check top-level module name
     top_level = module_name.split(".")[0]
     return top_level in stdlib_modules
+
+
+def normalize_package_name(name: str) -> str:
+    """Normalize package name according to PEP 503.
+
+    Args:
+        name: Package name to normalize.
+
+    Returns:
+        Normalized package name.
+
+    Examples:
+        >>> normalize_package_name("Django")
+        "django"
+        >>> normalize_package_name("python-dateutil")
+        "python-dateutil"
+    """
+    # PEP 503 normalization: lowercase and replace underscore/dots with hyphens
+    return re.sub(r"[-_.]+", "-", name).lower()

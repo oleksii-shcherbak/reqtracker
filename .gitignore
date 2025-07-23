@@ -31,5 +31,5 @@ htmlcov/
 Thumbs.db
 
 # Project specific
-requirements.txt
-requirements-dev.txt
+# requirements.txt - uncomment if using reqtracker to manage this file
+# requirements-dev.txt - tracked in version control for development setup

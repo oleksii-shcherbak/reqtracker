@@ -447,9 +447,23 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+## 📚 Documentation
+
+- **[Getting Started](docs/README.md)** - Overview and quick start guide
+- **[API Documentation](docs/api/README.md)** - Complete API reference for all modules
+- **[CLI Documentation](docs/cli/README.md)** - Comprehensive command-line guide
+- **[Configuration Guide](docs/guides/configuration.md)** - All configuration options
+- **[Examples](examples/README.md)** - Real-world usage examples and tutorials
+
+---
+
 ## 🔗 Links
 
-- **Documentation**: Coming soon
+- **Documentation**: [Full Documentation](docs/README.md)
+  - [API Reference](docs/api/README.md)
+  - [CLI Guide](docs/cli/README.md)
+  - [Configuration](docs/guides/configuration.md)
+- **Examples**: [Usage Examples](examples/README.md)
 - **PyPI**: Coming soon
 - **Issues**: [GitHub Issues](https://github.com/oleksii-shcherbak/reqtracker/issues)
 - **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)

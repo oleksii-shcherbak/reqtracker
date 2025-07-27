@@ -6,8 +6,6 @@ and import-to-package mapping.
 
 import re
 
-from src.reqtracker.mappings import IMPORT_TO_PACKAGE
-
 
 def get_package_name(import_name: str) -> str:
     """Get the package name for a given import name.
@@ -25,6 +23,8 @@ def get_package_name(import_name: str) -> str:
         >>> get_package_name("numpy")
         "numpy"
     """
+    from src.reqtracker.mappings import IMPORT_TO_PACKAGE
+
     # Check if we have a known mapping
     if import_name in IMPORT_TO_PACKAGE:
         return IMPORT_TO_PACKAGE[import_name]

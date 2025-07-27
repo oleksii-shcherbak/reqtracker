@@ -1,0 +1,40 @@
+# Basic reqtracker configuration
+# Copy this file to your project root as .reqtracker.toml
+
+[tool.reqtracker]
+# Analysis mode: "static", "dynamic", or "hybrid"
+mode = "hybrid"
+
+# File patterns to include (glob-style)
+include_patterns = ["*.py"]
+
+# File patterns to exclude
+exclude_patterns = [
+    "test_*.py",
+    "*_test.py",
+    "tests/**"
+]
+
+# Directories to exclude
+exclude_dirs = [
+    "tests",
+    "docs",
+    ".git",
+    "__pycache__",
+    "venv",
+    ".venv",
+    "env"
+]
+
+[tool.reqtracker.output]
+# Output file path
+file = "requirements.txt"
+
+# Version strategy: "exact", "compatible", "minimum", "none"
+version_strategy = "compatible"
+
+# Include header with generation info
+include_header = true
+
+# Sort packages alphabetically
+sort_packages = true

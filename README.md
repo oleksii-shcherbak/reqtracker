@@ -253,12 +253,12 @@ def track(
     config: Optional[Config] = None
 ) -> Set[str]:
     """Track dependencies in source files.
-    
+
     Args:
         source_paths: Paths to analyze. If None, uses current directory.
         mode: Analysis mode - 'static', 'dynamic', or 'hybrid'.
         config: Configuration object.
-        
+
     Returns:
         Set of package names found in the code.
     """
@@ -275,14 +275,14 @@ def generate(
     sort_packages: bool = True
 ) -> str:
     """Generate requirements.txt from packages.
-    
+
     Args:
         packages: Package names. If None, auto-detects from current directory.
         output: Output file path.
         version_strategy: Version pinning strategy.
         include_header: Include generation header.
         sort_packages: Sort packages alphabetically.
-        
+
     Returns:
         Generated requirements.txt content.
     """
@@ -301,7 +301,7 @@ def analyze(
    config: Optional[Config] = None
 ) -> Set[str]:
    """Complete workflow: track dependencies and generate requirements.txt.
-   
+
    Returns:
        Set of packages found and included in requirements.txt.
    """
@@ -405,7 +405,7 @@ include_patterns = ["*.py", "scripts/*.py"]
 # Exclude patterns
 exclude_patterns = [
     "test_*.py",
-    "*_test.py", 
+    "*_test.py",
     "tests/**",
     "**/migrations/**"
 ]

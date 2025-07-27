@@ -1,0 +1,34 @@
+# GitLab CI configuration example for reqtracker
+# This should be placed in .gitlab-ci.yml
+
+stages:
+  - dependencies
+  - test
+
+update-requirements:
+  stage: dependencies
+  image: python:3.9
+  script:
+    - pip install reqtracker
+    - mkdir -p requirements
+    - reqtracker analyze ./src --output requirements/base.txt
+    - reqtracker analyze ./src --mode static --output requirements/production.txt --version-strategy exact
+  artifacts:
+    paths:
+      - requirements/
+    expire_in: 1 week
+  only:
+    changes:
+      - "**/*.py"
+
+dependency-audit:
+  stage: test
+  image: python:3.9
+  script:
+    - pip install reqtracker
+    - echo "Auditing project dependencies..."
+    - reqtracker track ./src --mode static --verbose
+    - echo "Dependency audit completed"
+  only:
+    - merge_requests
+    - main

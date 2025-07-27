@@ -1,0 +1,57 @@
+# Django-specific reqtracker configuration
+# Optimized for Django projects with common exclusions
+
+[tool.reqtracker]
+mode = "hybrid"
+
+include_patterns = ["*.py"]
+
+# Django-specific exclusions
+exclude_patterns = [
+    # Test files
+    "test_*.py",
+    "*_test.py",
+    "*/tests/*",
+
+    # Django migrations
+    "*/migrations/*",
+    "**/migrations/**",
+
+    # Settings variations
+    "*/settings/local.py",
+    "*/settings/dev.py",
+    "local_settings.py",
+
+    # Management command (optional)
+    "manage.py",
+
+    # Static and media files
+    "*/static/*",
+    "*/media/*"
+]
+
+exclude_dirs = [
+    "tests",
+    "migrations",
+    "static",
+    "media",
+    "locale",
+    "docs",
+    "__pycache__",
+    ".git",
+    "venv",
+    ".venv",
+    "node_modules"
+]
+
+# Custom import mappings for common Django packages
+[tool.reqtracker.import_mappings]
+PIL = "Pillow"
+cv2 = "opencv-python"
+psycopg2 = "psycopg2-binary"
+
+[tool.reqtracker.output]
+file = "requirements.txt"
+version_strategy = "compatible"
+include_header = true
+sort_packages = true

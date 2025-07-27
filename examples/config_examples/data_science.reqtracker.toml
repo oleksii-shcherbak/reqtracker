@@ -1,0 +1,66 @@
+# Data Science project reqtracker configuration
+# Optimized for ML/DS projects with notebooks and data files
+
+[tool.reqtracker]
+mode = "hybrid"
+
+include_patterns = ["*.py"]
+
+# Data science specific exclusions
+exclude_patterns = [
+    # Test files
+    "test_*.py",
+    "*_test.py",
+    "*/tests/*",
+
+    # Jupyter notebook checkpoints
+    "*.ipynb_checkpoints/*",
+    "*/.ipynb_checkpoints/*",
+
+    # Temporary and cache files
+    "*.tmp",
+    "*.cache",
+    "*_cache/*"
+]
+
+exclude_dirs = [
+    "tests",
+
+    # Data directories
+    "data",
+    "datasets",
+    "raw_data",
+
+    # Output directories
+    "outputs",
+    "results",
+    "models",
+    "checkpoints",
+    "logs",
+    "plots",
+    "figures",
+
+    # Jupyter
+    ".ipynb_checkpoints",
+
+    # Standard exclusions
+    "docs",
+    "__pycache__",
+    ".git",
+    "venv",
+    ".venv",
+    "env"
+]
+
+# Common DS/ML package mappings
+[tool.reqtracker.import_mappings]
+sklearn = "scikit-learn"
+cv2 = "opencv-python"
+PIL = "Pillow"
+skimage = "scikit-image"
+
+[tool.reqtracker.output]
+file = "requirements.txt"
+version_strategy = "minimum"  # Flexible for research
+include_header = true
+sort_packages = true

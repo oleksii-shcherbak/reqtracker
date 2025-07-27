@@ -1,0 +1,47 @@
+// Jenkins Pipeline example for reqtracker
+// Use this in a Jenkinsfile
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Update Requirements') {
+            when {
+                anyOf {
+                    changeset "**/*.py"
+                    branch 'main'
+                }
+            }
+            steps {
+                sh '''
+                    pip install reqtracker
+                    mkdir -p requirements
+                    reqtracker analyze ./src --output requirements/base.txt
+                    reqtracker analyze ./src --mode static --output requirements/prod.txt --version-strategy exact
+                '''
+
+                script {
+                    if (sh(script: 'git diff --quiet requirements/', returnStatus: true) != 0) {
+                        sh '''
+                            git config user.email "jenkins@company.com"
+                            git config user.name "Jenkins"
+                            git add requirements/
+                            git commit -m "chore(deps): update requirements files"
+                            git push origin main
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Dependency Check') {
+            steps {
+                sh '''
+                    pip install reqtracker
+                    echo "Checking dependencies..."
+                    reqtracker track ./src --mode hybrid --verbose
+                '''
+            }
+        }
+    }
+}

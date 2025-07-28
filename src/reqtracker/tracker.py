@@ -110,14 +110,15 @@ class Tracker:
         """Run dynamic analysis only."""
         all_imports = set()
 
-        with TrackingSession() as session:
-            for path in paths:
-                if path.is_file() and path.suffix == ".py":
-                    try:
-                        imports = session.track_file(path)
-                        all_imports.update(imports)
-                    except Exception as e:
-                        print(f"Warning: Could not execute {path}: {e}")
+        # Create a tracking session and use it properly
+        session = TrackingSession()
+        for path in paths:
+            if path.is_file() and path.suffix == ".py":
+                try:
+                    imports = session.track_file(path)
+                    all_imports.update(imports)
+                except Exception as e:
+                    print(f"Warning: Could not execute {path}: {e}")
 
         # Resolve package names
         return self._resolve_package_names(all_imports)

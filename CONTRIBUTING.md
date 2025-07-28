@@ -20,7 +20,7 @@ Thank you for your interest in contributing to reqtracker! This guide will help 
 2. **Create and activate virtual environment:**
    ```bash
    python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scriptsctivate
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
 3. **Install development dependencies:**

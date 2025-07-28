@@ -27,7 +27,7 @@ Advanced Usage:
     reqtracker.generate(packages, output='deps.txt', version_strategy='exact')
 """
 
-__version__ = "1.0.0"
+__version__ = "1.0.2"
 __author__ = "Oleksii Shcherbak"
 __email__ = "oleksii_shcherbak@icloud.com"
 

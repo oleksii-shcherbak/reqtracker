@@ -274,7 +274,7 @@ git commit -m "docs(api): update docstrings for track() function"
 ```
 reqtracker/
 ├── src/reqtracker/         # Main package code
-│   ├── __init__.py         # Public API
+│   ├── init.py             # Public API and package metadata
 │   ├── cli.py              # Command-line interface
 │   ├── tracker.py          # Main coordination logic
 │   ├── static_analyzer.py  # AST-based analysis
@@ -283,10 +283,10 @@ reqtracker/
 │   ├── config.py           # Configuration management
 │   ├── mappings.py         # Import-to-package mapping
 │   └── utils.py            # Utility functions
-├── tests/                  # Test suite
+├── tests/                  # Test suite (204 tests)
 ├── docs/                   # Documentation
 ├── examples/               # Usage examples
-└── pyproject.toml          # Project configuration
+└── pyproject.toml          # Project configuration and metadata
 ```
 
 ## Getting Help

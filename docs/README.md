@@ -22,9 +22,11 @@ Practical examples and tutorials:
 - CI/CD integration
 
 ## Quick Links
+
 - [GitHub Repository](https://github.com/oleksii-shcherbak/reqtracker)
 - [Issue Tracker](https://github.com/oleksii-shcherbak/reqtracker/issues)
-- **PyPI Package**: Coming soon
+- [PyPI Package](https://pypi.org/project/reqtracker/)
+- [Documentation](https://github.com/oleksii-shcherbak/reqtracker#readme)
 
 ## Getting Started
 

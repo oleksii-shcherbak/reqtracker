@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-07-28
+
+### Fixed
+- CLI version display now shows correct version instead of 1.0.0
+- Version consistency between pyproject.toml and __init__.py
+
+## [1.0.1] - 2025-07-28
+
+### Added
+- Published to PyPI - package now available via `pip install reqtracker`
+- PyPI classifiers and metadata for better discoverability
+
+### Fixed
+- Package distribution configuration for proper PyPI installation
+
 ## [1.0.0] - 2025-07-28
 
 ### Added
@@ -59,4 +74,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Memory Efficient**: Minimal memory footprint during analysis
 - **Scalable**: Tested on projects with 1000+ files
 
+[1.0.2]: https://github.com/oleksii-shcherbak/reqtracker/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/oleksii-shcherbak/reqtracker/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/oleksii-shcherbak/reqtracker/releases/tag/v1.0.0

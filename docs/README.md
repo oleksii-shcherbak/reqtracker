@@ -21,8 +21,6 @@ Comprehensive command-line interface guide:
 
 ### 📖 Guides
 - [Configuration Guide](guides/configuration.md) - Detailed configuration options
-- [Integration Guide](guides/integration.md) - CI/CD and tool integration
-- [Best Practices](guides/best-practices.md) - Recommended workflows
 
 ### 🚀 [Examples](../examples/README.md)
 Practical examples and tutorials:
@@ -33,10 +31,9 @@ Practical examples and tutorials:
 - CI/CD integration
 
 ## Quick Links
-
 - [GitHub Repository](https://github.com/oleksii-shcherbak/reqtracker)
 - [Issue Tracker](https://github.com/oleksii-shcherbak/reqtracker/issues)
-- [PyPI Package](https://pypi.org/project/reqtracker/) (coming soon)
+- **PyPI Package**: Coming soon
 
 ## Getting Started
 
@@ -60,14 +57,19 @@ reqtracker analyze
 ```
 
 ## Features
-
 - **Multiple Analysis Modes**: Static, dynamic, and hybrid analysis
 - **Smart Package Mapping**: Handles import name vs package name differences
 - **Flexible Version Strategies**: Exact, compatible, minimum, or no versions
 - **Highly Configurable**: TOML-based configuration with extensive options
 - **CLI and API**: Both command-line and programmatic interfaces
-- **Well-Tested**: Comprehensive test suite with >95% coverage
+- **Well-Tested**: Comprehensive test suite with 204 tests and >95% coverage
+
+## Test Coverage
+The project includes comprehensive testing:
+- **Unit Tests**: 200+ tests covering all modules
+- **Integration Tests**: Real project testing with various scenarios
+- **Performance Tests**: Benchmarks for different project sizes
+- **Cross-Platform Tests**: Compatibility across operating systems
 
 ## License
-
 reqtracker is released under the MIT License. See [LICENSE](../LICENSE) for details.

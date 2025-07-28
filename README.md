@@ -94,20 +94,20 @@ pytest tests/integration -v
 
 ## 📚 Documentation
 
-- **[Getting Started](docs/README.md)** - Overview and quick start guide
-- **[API Documentation](docs/api/README.md)** - Complete API reference for all modules
+- [Getting Started](https://github.com/oleksii-shcherbak/reqtracker#getting-started) - Overview and quick start guide
+- [API Documentation](https://github.com/oleksii-shcherbak/reqtracker/tree/main/docs/api) - Complete API reference for all modules
+- [Configuration Guide](https://github.com/oleksii-shcherbak/reqtracker/blob/main/docs/guides/configuration.md) - All configuration options
+- [Examples](https://github.com/oleksii-shcherbak/reqtracker/tree/main/examples) - Real-world usage examples and tutorials
 
-- **[Configuration Guide](docs/guides/configuration.md)** - All configuration options
-- **[Examples](examples/README.md)** - Real-world usage examples and tutorials
 
 ---
 
 ## 🤝 Contributing
 
-I welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+I welcome contributions! Please see [CONTRIBUTING.md](https://github.com/oleksii-shcherbak/reqtracker/blob/main/CONTRIBUTING.md) for guidelines.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/oleksii-shcherbak/reqtracker/blob/main/LICENSE) file for details.

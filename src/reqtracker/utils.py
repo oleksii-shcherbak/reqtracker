@@ -5,6 +5,7 @@ and import-to-package mapping.
 """
 
 import re
+import sys
 
 
 def get_package_name(import_name: str) -> str:
@@ -42,6 +43,15 @@ def is_standard_library(module_name: str) -> bool:
     Returns:
         True if the module is in the standard library.
     """
+    # Check built-in modules first
+    top_level = module_name.split(".")[0]
+    if top_level in sys.builtin_module_names:
+        return True
+    
+    # Check for internal C extension modules (start with underscore)
+    if top_level.startswith('_'):
+        return True
+    
     # Comprehensive list of Python standard library modules
     stdlib_modules = {
         # Built-in modules
@@ -124,10 +134,64 @@ def is_standard_library(module_name: str) -> bool:
         "lzma",
         "zipfile",
         "tarfile",
+        # Additional standard library modules that were missing
+        "calendar",
+        "mimetypes", 
+        "encodings",
+        "quopri",
+        "ipaddress",
+        "stringprep",
+        "compression",
+        "socks",
+        "winreg",
+        "simplejson",  # This might be third-party, but often bundled
+        # Network and encoding modules
+        "ssl",
+        "ftplib",
+        "poplib",
+        "imaplib",
+        "smtplib",
+        "telnetlib",
+        "nntplib",
+        "mailcap",
+        "mailbox",
+        "mhlib",
+        "rfc822",
+        "MimeWriter",
+        "mimify",
+        "netrc",
+        "xdrlib",
+        "plistlib",
+        # System-specific modules
+        "pwd",
+        "grp", 
+        "crypt",
+        "spwd",
+        "pty",
+        "fcntl",
+        "pipes",
+        "posixfile",
+        "resource",
+        "nis",
+        "syslog",
+        "commands",
+        "dl",
+        "termios",
+        "tty",
+        "rlcompleter",
+        # Windows-specific
+        "msvcrt",
+        "winsound",
+        "_winapi",
+        # Development and debugging
+        "trace",
+        "tabnanny",
+        "py_compile",
+        "compileall",
+        "dis",
+        "pickletools",
     }
 
-    # Check top-level module name
-    top_level = module_name.split(".")[0]
     return top_level in stdlib_modules
 
 

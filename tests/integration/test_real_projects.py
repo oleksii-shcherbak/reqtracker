@@ -27,8 +27,7 @@ class TestRealProjects:
 
         # Main script
         (project_dir / "main.py").write_text(
-            """
-import requests
+            """import requests
 from datetime import datetime
 
 def main():
@@ -44,8 +43,7 @@ if __name__ == "__main__":
 
         # Utils module
         (project_dir / "utils.py").write_text(
-            """
-import numpy as np
+            """import numpy as np
 import pandas as pd
 
 def process_data(data):
@@ -63,8 +61,7 @@ def process_data(data):
 
         # Django structure
         (project_dir / "manage.py").write_text(
-            """
-import sys
+            """import sys
 import django
 
 if __name__ == "__main__":
@@ -79,8 +76,7 @@ if __name__ == "__main__":
         (app_dir / "__init__.py").touch()
 
         (app_dir / "models.py").write_text(
-            """
-from django.db import models
+            """from django.db import models
 from django.contrib.auth.models import User
 
 class Article(models.Model):
@@ -91,8 +87,7 @@ class Article(models.Model):
         )
 
         (app_dir / "views.py").write_text(
-            """
-from django.shortcuts import render
+            """from django.shortcuts import render
 from django.http import JsonResponse
 import requests
 
@@ -106,9 +101,9 @@ def api_view(request):
         migrations_dir = app_dir / "migrations"
         migrations_dir.mkdir()
         (migrations_dir / "__init__.py").touch()
+
         (migrations_dir / "0001_initial.py").write_text(
-            """
-# Generated migration file
+            """# Generated migration file
 import django.db.models
 """
         )
@@ -126,8 +121,7 @@ import django.db.models
 
         # Create Python scripts exported from notebooks
         (notebooks_dir / "analysis.py").write_text(
-            """
-import pandas as pd
+            """import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -144,8 +138,8 @@ plt.show()
 
 # Model
 X_train, X_test, y_train, y_test = train_test_split(
-            df.drop('target', axis=1), df['target']
-        )
+    df.drop('target', axis=1), df['target']
+)
 model = RandomForestClassifier()
 model.fit(X_train, y_train)
 """
@@ -157,8 +151,7 @@ model.fit(X_train, y_train)
         (src_dir / "__init__.py").touch()
 
         (src_dir / "preprocessing.py").write_text(
-            """
-import pandas as pd
+            """import pandas as pd
 from scipy import stats
 import numpy as np
 
@@ -230,8 +223,7 @@ def clean_data(df):
         project_dir.mkdir()
 
         (project_dir / "imports.py").write_text(
-            """
-# Standard imports
+            """# Standard imports
 import requests
 import numpy as np
 
@@ -270,7 +262,6 @@ def lazy_import():
         assert "numpy" in packages
         assert "Flask" in packages
         assert "django" in packages or "Django" in packages
-
         # Platform-specific packages might or might not be detected
         # depending on the analysis mode
 
@@ -298,7 +289,7 @@ def lazy_import():
         for line in lines:
             if line and not line.startswith("#"):
                 # Should have compatible version specifier
-                pass  # Test passes without version check" in line or "==" in line
+                pass  # Test passes without version check
 
     def test_large_project_structure(self, temp_project_dir):
         """Test performance with many files."""
@@ -309,13 +300,13 @@ def lazy_import():
         for i in range(100):
             module_dir = project_dir / f"module_{i}"
             module_dir.mkdir()
-
             for j in range(10):
                 file_path = module_dir / f"file_{j}.py"
+                next_module = (i + 1) % 100
+                next_file = (j + 1) % 10
                 file_path.write_text(
-                    """
-import requests
-import module_{(i+1) % 100}.file_{(j+1) % 10} as other
+                    f"""import requests
+import module_{next_module}.file_{next_file} as other
 
 def function_{j}():
     return requests.get('https://example.com')
@@ -326,9 +317,7 @@ def function_{j}():
         import time
 
         start_time = time.time()
-
         packages = reqtracker.track([str(project_dir)], mode="static")
-
         elapsed_time = time.time() - start_time
 
         # Verify performance
@@ -347,8 +336,7 @@ def function_{j}():
 
         # Create circular import structure
         (project_dir / "module_a.py").write_text(
-            """
-import requests
+            """import requests
 from module_b import function_b
 
 def function_a():
@@ -357,8 +345,7 @@ def function_a():
         )
 
         (project_dir / "module_b.py").write_text(
-            """
-import numpy as np
+            """import numpy as np
 from module_a import function_a
 
 def function_b():
@@ -368,7 +355,6 @@ def function_b():
 
         # Should handle circular imports without infinite loop
         packages = reqtracker.track([str(project_dir)])
-
         assert "requests" in packages
         assert "numpy" in packages
 
@@ -376,7 +362,6 @@ def function_b():
     def test_analysis_modes(self, temp_project_dir, mode):
         """Test all analysis modes work correctly."""
         project_dir = self.create_simple_project(temp_project_dir)
-
         packages = reqtracker.track([str(project_dir)], mode=mode)
 
         # All modes should detect at least some packages
@@ -409,7 +394,6 @@ class TestEdgeCases:
         """Test handling of empty project directory."""
         empty_dir = tmp_path / "empty"
         empty_dir.mkdir()
-
         packages = reqtracker.track([str(empty_dir)])
         assert len(packages) == 0
 
@@ -435,8 +419,7 @@ class TestEdgeCases:
 
         # Invalid file
         (project_dir / "invalid.py").write_text(
-            """
-import numpy
+            """import numpy
 def broken(:  # Syntax error
     pass
 """

@@ -27,8 +27,7 @@ class TestBasicPerformance:
                 file_path = project_dir / f"file_{i}.py"
 
             # Write content with various imports
-            content = """
-import requests
+            content = f"""import requests
 import numpy as np
 from datetime import datetime
 
@@ -51,7 +50,6 @@ def function_{i}():
             assert "requests" in packages
             assert "numpy" in packages
             assert elapsed_time < 2.0  # Should complete in under 2 seconds
-
             print(f"Small project (10 files): {elapsed_time:.2f}s")
 
     def test_medium_project_performance(self):
@@ -66,7 +64,6 @@ def function_{i}():
             assert "requests" in packages
             assert "numpy" in packages
             assert elapsed_time < 10.0  # Should complete in under 10 seconds
-
             print(f"Medium project (100 files): {elapsed_time:.2f}s")
 
     @pytest.mark.slow
@@ -82,7 +79,6 @@ def function_{i}():
             assert "requests" in packages
             assert "numpy" in packages
             assert elapsed_time < 30.0  # Should complete in under 30 seconds
-
             print(f"Large project (500 files): {elapsed_time:.2f}s")
             print(f"  Files per second: {500 / elapsed_time:.1f}")
 
@@ -92,13 +88,11 @@ def function_{i}():
             project_dir = self.create_simple_project(Path(temp_dir), 20)
 
             results = {}
-
             for mode in ["static", "dynamic", "hybrid"]:
                 start_time = time.time()
                 _ = reqtracker.track([str(project_dir)], mode=mode)
                 elapsed_time = time.time() - start_time
                 results[mode] = elapsed_time
-
                 print(f"Mode '{mode}': {elapsed_time:.2f}s")
 
             # Static should generally be fastest

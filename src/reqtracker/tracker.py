@@ -76,6 +76,29 @@ class Tracker:
                 exclude_patterns=self.config.exclude_patterns,
             )
 
+    def _get_python_files(self, paths: List[Path]) -> List[Path]:
+        """Get all Python files from the given paths.
+        
+        Args:
+            paths: List of file or directory paths.
+            
+        Returns:
+            List of Python file paths.
+        """
+        python_files = []
+        
+        for path in paths:
+            if path.is_file() and path.suffix == ".py":
+                python_files.append(path)
+            elif path.is_dir():
+                # Find all Python files in directory recursively
+                for py_file in path.rglob("*.py"):
+                    # Apply basic filtering (could be enhanced with config patterns)
+                    if not any(part.startswith('.') for part in py_file.parts):
+                        python_files.append(py_file)
+        
+        return python_files
+
     def _run_static_analysis(self, paths: List[Path]) -> Set[str]:
         """Run static analysis only."""
         all_imports = set()
@@ -110,15 +133,17 @@ class Tracker:
         """Run dynamic analysis only."""
         all_imports = set()
 
+        # Get all Python files from paths (handles both files and directories)
+        python_files = self._get_python_files(paths)
+
         # Create a tracking session and use it properly
         session = TrackingSession()
-        for path in paths:
-            if path.is_file() and path.suffix == ".py":
-                try:
-                    imports = session.track_file(path)
-                    all_imports.update(imports)
-                except Exception as e:
-                    print(f"Warning: Could not execute {path}: {e}")
+        for py_file in python_files:
+            try:
+                imports = session.track_file(py_file)
+                all_imports.update(imports)
+            except Exception as e:
+                print(f"Warning: Could not execute {py_file}: {e}")
 
         # Resolve package names
         return self._resolve_package_names(all_imports)

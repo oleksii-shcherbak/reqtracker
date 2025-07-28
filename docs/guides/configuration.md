@@ -38,19 +38,19 @@ mode = "hybrid"
 
 # File patterns to include (glob syntax)
 include_patterns = [
-    "*.py",           # All .py files in root
-    "src/**/*.py",    # All .py files under src/
-    "lib/*.py"        # .py files directly in lib/
+    "*.py",              # All .py files in root
+    "src/**/*.py",       # All .py files under src/
+    "lib/*.py"           # .py files directly in lib/
 ]
 
 # File patterns to exclude
 exclude_patterns = [
-    "test_*.py",      # Test files
-    "*_test.py",      # Alternative test naming
-    "tests/**/*",     # All files in tests/
-    "docs/**/*",      # Documentation
-    "build/**/*",     # Build artifacts
-    "**/__pycache__/**" # Cache directories
+    "test_*.py",         # Test files
+    "*_test.py",         # Alternative test naming
+    "tests/**/*",        # All files in tests/
+    "docs/**/*",         # Documentation
+    "build/**/*",        # Build artifacts
+    "**/__pycache__/**"  # Cache directories
 ]
 
 # Packages to ignore in output

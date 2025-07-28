@@ -269,8 +269,8 @@ from ...package import module
 
 ```python
 # Limit search scope
-analyzer.analyze_directory("./src")  # Better
-analyzer.analyze_directory(".")      # Slower
+analyzer.analyze_directory("./src")    # Better
+analyzer.analyze_directory(".")        # Slower
 
 # Use specific patterns
 config = Config(

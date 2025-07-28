@@ -82,10 +82,10 @@ Enum defining version pinning strategies.
 class VersionStrategy(str, Enum):
     """Version pinning strategies for requirements."""
 
-    EXACT = "exact"          # package==1.2.3
-    COMPATIBLE = "compatible" # package~=1.2.3
-    MINIMUM = "minimum"      # package>=1.2.3
-    NONE = "none"            # package
+    EXACT = "exact"            # package==1.2.3
+    COMPATIBLE = "compatible"  # package~=1.2.3
+    MINIMUM = "minimum"        # package>=1.2.3
+    NONE = "none"              # package
 ```
 
 ## Version Strategies

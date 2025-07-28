@@ -96,7 +96,7 @@ pytest tests/integration -v
 
 - **[Getting Started](docs/README.md)** - Overview and quick start guide
 - **[API Documentation](docs/api/README.md)** - Complete API reference for all modules
-- **[CLI Documentation](docs/cli/README.md)** - Comprehensive command-line guide
+
 - **[Configuration Guide](docs/guides/configuration.md)** - All configuration options
 - **[Examples](examples/README.md)** - Real-world usage examples and tutorials
 

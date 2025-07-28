@@ -8,16 +8,7 @@ Welcome to the comprehensive documentation for reqtracker, a Python dependency t
 Complete reference for all modules, classes, and functions:
 - Main API functions (track, generate, analyze)
 - Core modules (Tracker, Config, Generator)
-- Analysis modules (StaticAnalyzer, DynamicTracker)
-- Utility modules (Mappings, Utils)
-
-### 🖥️ [CLI Documentation](cli/README.md)
-Comprehensive command-line interface guide:
-- Installation and setup
-- Command reference
-- Configuration options
-- Usage examples
-- Troubleshooting
+- Analysis modules (StaticAnalyzer)
 
 ### 📖 Guides
 - [Configuration Guide](guides/configuration.md) - Detailed configuration options

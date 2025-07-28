@@ -297,7 +297,16 @@ class TrackingSession:
         }
 
         def execute():
-            exec(code, namespace)
+            try:
+                exec(code, namespace)
+            except ImportError as e:
+                # Import errors are expected when tracking dependencies
+                # The hook will have already recorded the import attempt
+                pass
+            except Exception as e:
+                # Other errors should still be handled gracefully
+                # but we don't want to fail completely
+                pass
 
         self.tracker.track_execution(execute)
         return self.tracker.get_imports()
@@ -315,7 +324,15 @@ class TrackingSession:
             self.tracker.clear()
 
         def execute():
-            exec(code)
+            try:
+                exec(code)
+            except ImportError:
+                # Import errors are expected when tracking dependencies
+                # The hook will have already recorded the import attempt
+                pass
+            except Exception:
+                # Other errors should be handled gracefully
+                pass
 
         self.tracker.track_execution(execute)
         return self.tracker.get_imports()

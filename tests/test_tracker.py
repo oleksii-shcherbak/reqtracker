@@ -134,28 +134,31 @@ class TestTracker:
         """Test dynamic analysis."""
         tracker = Tracker()
 
-        # Create a mock Path object instead of a real one
+        # Create a mock Path object
         test_file = MagicMock(spec=Path)
         test_file.is_file.return_value = True
         test_file.suffix = ".py"
         test_file.__str__ = lambda: "./test.py"
 
-        # Mock the context manager and session
+        # Mock the TrackingSession instance (not context manager)
         mock_session = MagicMock()
         mock_session.track_file.return_value = {"requests", "beautifulsoup4"}
-        mock_session_class.return_value.__enter__.return_value = mock_session
-        mock_session_class.return_value.__exit__.return_value = None
+        mock_session_class.return_value = mock_session
 
+        # Mock _get_python_files to return our test file
         with patch.object(
-            tracker,
-            "_resolve_package_names",
-            return_value={"requests", "beautifulsoup4"},
-        ) as mock_resolve:
-            result = tracker._run_dynamic_analysis([test_file])
+            tracker, "_get_python_files", return_value=[test_file]
+        ):
+            with patch.object(
+                tracker,
+                "_resolve_package_names",
+                return_value={"requests", "beautifulsoup4"},
+            ) as mock_resolve:
+                result = tracker._run_dynamic_analysis([test_file])
 
-            mock_session.track_file.assert_called_once_with(test_file)
-            mock_resolve.assert_called_once_with({"requests", "beautifulsoup4"})
-            assert result == {"requests", "beautifulsoup4"}
+                mock_session.track_file.assert_called_once_with(test_file)
+                mock_resolve.assert_called_once_with({"requests", "beautifulsoup4"})
+                assert result == {"requests", "beautifulsoup4"}
 
     def test_run_dynamic_analysis_with_exception(self):
         """Test dynamic analysis handles execution exceptions."""
@@ -165,24 +168,27 @@ class TestTracker:
         test_file = MagicMock(spec=Path)
         test_file.is_file.return_value = True
         test_file.suffix = ".py"
-        test_file.__str__ = lambda self: "./test.py"  # Fixed: added self parameter
+        test_file.__str__ = lambda: "./test.py"
 
         with patch("src.reqtracker.tracker.TrackingSession") as mock_session_class:
             mock_session = MagicMock()
             mock_session.track_file.side_effect = Exception("Execution failed")
-            mock_session_class.return_value.__enter__.return_value = mock_session
-            mock_session_class.return_value.__exit__.return_value = None
+            mock_session_class.return_value = mock_session
 
-            with patch("builtins.print") as mock_print:
-                with patch.object(
-                    tracker, "_resolve_package_names", return_value=set()
-                ) as mock_resolve:
-                    result = tracker._run_dynamic_analysis([test_file])
+            # Mock _get_python_files to return our test file
+            with patch.object(
+                tracker, "_get_python_files", return_value=[test_file]
+            ):
+                with patch("builtins.print") as mock_print:
+                    with patch.object(
+                        tracker, "_resolve_package_names", return_value=set()
+                    ) as mock_resolve:
+                        result = tracker._run_dynamic_analysis([test_file])
 
-                    mock_print.assert_called_once()
-                    assert "Warning: Could not execute" in mock_print.call_args[0][0]
-                    mock_resolve.assert_called_once_with(set())
-                    assert result == set()
+                        mock_print.assert_called_once()
+                        assert "Warning: Could not execute" in mock_print.call_args[0][0]
+                        mock_resolve.assert_called_once_with(set())
+                        assert result == set()
 
     def test_run_hybrid_analysis(self):
         """Test hybrid analysis combines static and dynamic results."""

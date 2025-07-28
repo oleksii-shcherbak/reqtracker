@@ -168,7 +168,7 @@ class TestTracker:
         test_file = MagicMock(spec=Path)
         test_file.is_file.return_value = True
         test_file.suffix = ".py"
-        test_file.__str__ = lambda: "./test.py"
+        test_file.__str__ = lambda self: "./test.py"  # Fixed: added self parameter
 
         with patch("src.reqtracker.tracker.TrackingSession") as mock_session_class:
             mock_session = MagicMock()

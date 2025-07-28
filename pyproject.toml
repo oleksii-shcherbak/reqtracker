@@ -13,10 +13,10 @@ authors = [
     {name = "Oleksii Shcherbak", email = "oleksii_shcherbak@icloud.com"},
 ]
 keywords = [
-    "dependencies", 
-    "requirements", 
-    "tracking", 
-    "automation", 
+    "dependencies",
+    "requirements",
+    "tracking",
+    "automation",
     "development",
     "pip",
     "packaging",

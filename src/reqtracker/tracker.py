@@ -78,15 +78,15 @@ class Tracker:
 
     def _get_python_files(self, paths: List[Path]) -> List[Path]:
         """Get all Python files from the given paths.
-        
+
         Args:
             paths: List of file or directory paths.
-            
+
         Returns:
             List of Python file paths.
         """
         python_files = []
-        
+
         for path in paths:
             if path.is_file() and path.suffix == ".py":
                 python_files.append(path)
@@ -94,9 +94,9 @@ class Tracker:
                 # Find all Python files in directory recursively
                 for py_file in path.rglob("*.py"):
                     # Apply basic filtering (could be enhanced with config patterns)
-                    if not any(part.startswith('.') for part in py_file.parts):
+                    if not any(part.startswith(".") for part in py_file.parts):
                         python_files.append(py_file)
-        
+
         return python_files
 
     def _run_static_analysis(self, paths: List[Path]) -> Set[str]:

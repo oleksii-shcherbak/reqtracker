@@ -47,11 +47,11 @@ def is_standard_library(module_name: str) -> bool:
     top_level = module_name.split(".")[0]
     if top_level in sys.builtin_module_names:
         return True
-    
+
     # Check for internal C extension modules (start with underscore)
-    if top_level.startswith('_'):
+    if top_level.startswith("_"):
         return True
-    
+
     # Comprehensive list of Python standard library modules
     stdlib_modules = {
         # Built-in modules
@@ -136,7 +136,7 @@ def is_standard_library(module_name: str) -> bool:
         "tarfile",
         # Additional standard library modules that were missing
         "calendar",
-        "mimetypes", 
+        "mimetypes",
         "encodings",
         "quopri",
         "ipaddress",
@@ -164,7 +164,7 @@ def is_standard_library(module_name: str) -> bool:
         "plistlib",
         # System-specific modules
         "pwd",
-        "grp", 
+        "grp",
         "crypt",
         "spwd",
         "pty",

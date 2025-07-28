@@ -12,35 +12,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Static analysis using Python AST for fast, execution-free dependency detection
   - Dynamic tracking using import hooks for runtime dependency capture
   - Hybrid mode combining both approaches for maximum accuracy
-  
+
 - **Smart Package Mapping**: 100+ built-in import-to-package mappings
   - Handles complex cases like `cv2` → `opencv-python`, `sklearn` → `scikit-learn`
   - Extensible mapping system via configuration
-  
+
 - **Professional CLI Interface**:
   - `reqtracker track` - Track dependencies in source files
   - `reqtracker generate` - Generate requirements.txt files
   - `reqtracker analyze` - Complete workflow (track + generate)
   - Multiple analysis modes (static, dynamic, hybrid)
   - Flexible version strategies (exact, compatible, minimum, none)
-  
+
 - **Python API**: Clean programmatic interface
   - `reqtracker.track()` - Track dependencies
   - `reqtracker.generate()` - Generate requirements
   - `reqtracker.analyze()` - Complete workflow
-  
+
 - **Configuration System**:
   - TOML-based configuration files (`.reqtracker.toml`)
   - Include/exclude patterns with glob support
   - Custom import mappings
   - Output formatting options
-  
+
 - **Comprehensive Documentation**:
   - Professional README with usage examples
   - Complete examples directory with real-world use cases
   - Django, Flask, and data science project examples
   - CI/CD integration examples
-  
+
 - **Quality Assurance**:
   - 159 comprehensive tests with >95% coverage
   - Pre-commit hooks with black, isort, flake8, mypy

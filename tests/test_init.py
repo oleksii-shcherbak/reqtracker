@@ -66,6 +66,38 @@ class TestTrackFunction:
         mock_tracker.track.assert_called_once_with(None, TrackingMode.DYNAMIC)
         assert result == {"requests"}
 
+    @patch("src.reqtracker.Tracker")
+    def test_track_config_mode_respected(self, mock_tracker_class):
+        """Test that config.mode is used when mode parameter is None."""
+        mock_tracker = MagicMock()
+        mock_tracker.track.return_value = {"flask"}
+        mock_tracker_class.return_value = mock_tracker
+
+        # Test with config mode and no explicit mode parameter
+        config = Config(mode=TrackingMode.STATIC)
+        result = track(["./src"], config=config)
+
+        # Should use TrackingMode.STATIC from config
+        mock_tracker_class.assert_called_once_with(config)
+        mock_tracker.track.assert_called_once_with(["./src"], TrackingMode.STATIC)
+        assert result == {"flask"}
+
+    @patch("src.reqtracker.Tracker")
+    def test_track_mode_precedence_over_config(self, mock_tracker_class):
+        """Test that explicit mode parameter takes precedence over config.mode."""
+        mock_tracker = MagicMock()
+        mock_tracker.track.return_value = {"django"}
+        mock_tracker_class.return_value = mock_tracker
+
+        # Test with both explicit mode and config mode
+        config = Config(mode=TrackingMode.HYBRID)
+        result = track(["./src"], mode="static", config=config)
+
+        # Should use explicit mode (STATIC) not config mode (HYBRID)
+        mock_tracker_class.assert_called_once_with(config)
+        mock_tracker.track.assert_called_once_with(["./src"], TrackingMode.STATIC)
+        assert result == {"django"}
+
 
 class TestGenerateFunction:
     """Test cases for the generate() function."""
@@ -304,7 +336,7 @@ class TestIntegration:
 
     def test_advanced_usage_pattern(self):
         """Test advanced usage patterns."""
-        config = reqtracker.Config(mode=reqtracker.TrackerMode.STATIC)
+        config = reqtracker.Config(mode=reqtracker.TrackingMode.STATIC)
         with patch("src.reqtracker.Tracker") as mock_tracker_class:
             mock_tracker = MagicMock()
             mock_tracker.track.return_value = {"flask"}

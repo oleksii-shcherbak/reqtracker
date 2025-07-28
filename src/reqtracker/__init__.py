@@ -76,7 +76,7 @@ __all__ = [
 
 def track(
     source_paths: Optional[List[Union[str, Path]]] = None,
-    mode: str = "hybrid",
+    mode: Optional[str] = None,
     config: Optional[Config] = None,
 ) -> Set[str]:
     """Track dependencies in source files.
@@ -86,7 +86,8 @@ def track(
 
     Args:
         source_paths: List of paths to analyze. If None, analyzes current directory.
-        mode: Analysis mode - 'static', 'dynamic', or 'hybrid' (default).
+        mode: Analysis mode - .static., .dynamic., or .hybrid..
+            If None, uses config.mode.
         config: Configuration object. If None, uses default configuration.
 
     Returns:
@@ -106,17 +107,27 @@ def track(
         config = reqtracker.Config(exclude_patterns=['test_*'])
         packages = reqtracker.track(config=config)
     """
-    # Convert mode string to enum
-    try:
-        tracking_mode = TrackingMode(mode)
-    except ValueError:
-        raise ValueError(
-            f"Invalid mode '{mode}'. Must be 'static', 'dynamic', or 'hybrid'"
-        )
-
     # Use provided config or create default
     if config is None:
         config = Config()
+
+    # Determine the mode to use: explicit parameter takes precedence over config
+    if mode is not None:
+        mode_to_use = mode
+    else:
+        # Use mode from config, converting TrackerMode enum to string
+        if hasattr(config.mode, "value"):
+            mode_to_use = config.mode.value
+        else:
+            mode_to_use = str(config.mode).lower()
+
+    # Convert mode string to enum
+    try:
+        tracking_mode = TrackingMode(mode_to_use)
+    except ValueError:
+        raise ValueError(
+            f"Invalid mode '{mode_to_use}'. Must be 'static', 'dynamic', or 'hybrid'"
+        )
 
     # Create tracker and analyze
     tracker = Tracker(config)
@@ -202,7 +213,8 @@ def analyze(
     Args:
         source_paths: List of paths to analyze. If None, analyzes current directory.
         output: Output file path for requirements.txt.
-        mode: Analysis mode - 'static', 'dynamic', or 'hybrid' (default).
+        mode: Analysis mode - .static., .dynamic., or .hybrid..
+            If None, uses config.mode.
         version_strategy: Version pinning strategy.
         include_header: Whether to include generation header.
         sort_packages: Whether to sort packages alphabetically.

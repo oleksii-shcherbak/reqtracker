@@ -7,6 +7,7 @@ import pytest
 import src.reqtracker as reqtracker
 from src.reqtracker import (
     Config,
+    TrackerMode,
     TrackingMode,
     VersionStrategy,
     analyze,
@@ -74,7 +75,9 @@ class TestTrackFunction:
         mock_tracker_class.return_value = mock_tracker
 
         # Test with config mode and no explicit mode parameter
-        config = Config(mode=TrackingMode.STATIC)
+        from src.reqtracker import TrackerMode
+
+        config = Config(mode=TrackerMode.STATIC)
         result = track(["./src"], config=config)
 
         # Should use TrackingMode.STATIC from config
@@ -90,13 +93,40 @@ class TestTrackFunction:
         mock_tracker_class.return_value = mock_tracker
 
         # Test with both explicit mode and config mode
-        config = Config(mode=TrackingMode.HYBRID)
+        config = Config(mode=TrackerMode.HYBRID)
         result = track(["./src"], mode="static", config=config)
 
         # Should use explicit mode (STATIC) not config mode (HYBRID)
         mock_tracker_class.assert_called_once_with(config)
         mock_tracker.track.assert_called_once_with(["./src"], TrackingMode.STATIC)
         assert result == {"django"}
+
+    def test_track_recursion_prevention(self):
+        """Test that track function prevents infinite recursion in dynamic mode."""
+        import os
+
+        # Simulate being called from within dynamic analysis
+        os.environ["REQTRACKER_ANALYZING"] = "1"
+
+        try:
+            # These should return empty sets immediately without recursion
+            result1 = track(mode="dynamic")
+            assert result1 == set()
+
+            result2 = track(mode="hybrid")
+            assert result2 == set()
+
+            # Static mode should still work normally
+            with patch("src.reqtracker.Tracker") as mock_tracker_class:
+                mock_tracker = MagicMock()
+                mock_tracker.track.return_value = {"requests"}
+                mock_tracker_class.return_value = mock_tracker
+
+                result3 = track(mode="static")
+                assert result3 == {"requests"}
+
+        finally:
+            os.environ.pop("REQTRACKER_ANALYZING", None)
 
 
 class TestGenerateFunction:
@@ -277,7 +307,7 @@ class TestImports:
         assert hasattr(reqtracker, "__version__")
         assert hasattr(reqtracker, "__author__")
         assert hasattr(reqtracker, "__email__")
-        assert reqtracker.__version__ == "1.0.0"
+        assert reqtracker.__version__ == "1.0.3"
         assert reqtracker.__author__ == "Oleksii Shcherbak"
         assert "oleksii_shcherbak" in reqtracker.__email__
 
@@ -336,7 +366,7 @@ class TestIntegration:
 
     def test_advanced_usage_pattern(self):
         """Test advanced usage patterns."""
-        config = reqtracker.Config(mode=reqtracker.TrackingMode.STATIC)
+        config = reqtracker.Config(mode=reqtracker.TrackerMode.STATIC)
         with patch("src.reqtracker.Tracker") as mock_tracker_class:
             mock_tracker = MagicMock()
             mock_tracker.track.return_value = {"flask"}

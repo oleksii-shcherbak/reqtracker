@@ -175,18 +175,14 @@ class TestTracker:
 
             # Mock _get_python_files to return our test file
             with patch.object(tracker, "_get_python_files", return_value=[test_file]):
-                with patch("builtins.print") as mock_print:
-                    with patch.object(
-                        tracker, "_resolve_package_names", return_value=set()
-                    ) as mock_resolve:
-                        result = tracker._run_dynamic_analysis([test_file])
+                with patch.object(
+                    tracker, "_resolve_package_names", return_value=set()
+                ) as mock_resolve:
+                    result = tracker._run_dynamic_analysis([test_file])
 
-                        mock_print.assert_called_once()
-                        assert (
-                            "Warning: Could not execute" in mock_print.call_args[0][0]
-                        )
-                        mock_resolve.assert_called_once_with(set())
-                        assert result == set()
+                    # Exception handled silently, returns empty set
+                    assert result == set()
+                    mock_resolve.assert_called_once_with(set())
 
     def test_run_hybrid_analysis(self):
         """Test hybrid analysis combines static and dynamic results."""

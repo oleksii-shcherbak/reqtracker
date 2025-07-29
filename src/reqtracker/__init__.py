@@ -107,6 +107,8 @@ def track(
         config = reqtracker.Config(exclude_patterns=['test_*'])
         packages = reqtracker.track(config=config)
     """
+    import os
+
     # Use provided config or create default
     if config is None:
         config = Config()
@@ -120,6 +122,11 @@ def track(
             mode_to_use = config.mode.value
         else:
             mode_to_use = str(config.mode).lower()
+
+    # Check if it is in dynamic analysis mode to prevent infinite recursion
+    if mode_to_use in ("dynamic", "hybrid") and os.environ.get("REQTRACKER_ANALYZING"):
+        # Return empty set to break the recursion
+        return set()
 
     # Convert mode string to enum
     try:

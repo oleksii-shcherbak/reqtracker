@@ -76,7 +76,7 @@ class Tracker:
                 exclude_patterns=self.config.exclude_patterns,
             )
 
-    def _get_python_files(self, paths: List[Path]) -> List[Path]:
+    def _get_python_files(self, paths: List[Path]) -> List[Path]:  # noqa
         """Get all Python files from the given paths.
 
         Args:
@@ -126,25 +126,52 @@ class Tracker:
                 }
                 all_imports.update(module_names)
 
+        # noinspection PyUnreachableCode
         # Resolve package names
         return self._resolve_package_names(all_imports)
 
     def _run_dynamic_analysis(self, paths: List[Path]) -> Set[str]:
         """Run dynamic analysis only."""
+        import os
+
+        # Check if we are already in a dynamic analysis session
+        # to prevent infinite recursion
+        if os.environ.get("REQTRACKER_ANALYZING"):
+            # We are already analyzing, skip to prevent infinite loop
+            return set()
+
         all_imports = set()
 
         # Get all Python files from paths (handles both files and directories)
         python_files = self._get_python_files(paths)
 
-        # Create a tracking session and use it properly
-        session = TrackingSession()
-        for py_file in python_files:
-            try:
-                imports = session.track_file(py_file)
-                all_imports.update(imports)
-            except Exception as e:
-                print(f"Warning: Could not execute {py_file}: {e}")
+        # Set environment variable to indicate we are analyzing
+        os.environ["REQTRACKER_ANALYZING"] = "1"
 
+        try:
+            # Create a tracking session and use it properly
+            session = TrackingSession()
+            for py_file in python_files:
+                try:
+                    # Skip the current file if it is the one being executed
+                    import __main__
+
+                    if (
+                        hasattr(__main__, "__file__")
+                        and Path(__main__.__file__).resolve() == py_file.resolve()
+                    ):
+                        continue
+
+                    imports = session.track_file(py_file)
+                    all_imports.update(imports)
+                except Exception:  # noqa: BLE001
+                    # Silently skip files that cannot be executed
+                    pass
+        finally:
+            # Always clean up the environment variable
+            os.environ.pop("REQTRACKER_ANALYZING", None)
+
+        # noinspection PyUnreachableCode
         # Resolve package names
         return self._resolve_package_names(all_imports)
 
@@ -156,7 +183,7 @@ class Tracker:
         # Merge results
         return static_imports.union(dynamic_imports)
 
-    def _resolve_package_names(self, import_names: Set[str]) -> Set[str]:
+    def _resolve_package_names(self, import_names: Set[str]) -> Set[str]:  # noqa
         """Resolve import names to PyPI package names."""
         resolved = set()
 

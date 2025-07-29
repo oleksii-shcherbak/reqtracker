@@ -155,7 +155,9 @@ class TestTracker:
                 result = tracker._run_dynamic_analysis([test_file])
 
                 mock_session.track_file.assert_called_once_with(test_file)
-                mock_resolve.assert_called_once_with({"requests", "beautifulsoup4"})
+                mock_resolve.assert_called_once_with(
+                    {"requests", "beautifulsoup4"}, [test_file]
+                )
                 assert result == {"requests", "beautifulsoup4"}
 
     def test_run_dynamic_analysis_with_exception(self):
@@ -182,7 +184,7 @@ class TestTracker:
 
                     # Exception handled silently, returns empty set
                     assert result == set()
-                    mock_resolve.assert_called_once_with(set())
+                    mock_resolve.assert_called_once_with(set(), [test_file])
 
     def test_run_hybrid_analysis(self):
         """Test hybrid analysis combines static and dynamic results."""

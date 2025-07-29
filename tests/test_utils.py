@@ -87,3 +87,31 @@ class TestNormalizePackageName:
 
         assert normalize_package_name("my..package__name") == "my-package-name"
         assert normalize_package_name("test---pkg") == "test-pkg"
+
+
+class TestLocalModuleDetection:
+    """Test cases for local module detection."""
+
+    def test_is_local_module(self):
+        """Test is_local_module function."""
+        import tempfile
+        from pathlib import Path
+
+        from src.reqtracker.utils import is_local_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+
+            # Create a local module
+            (temp_path / "my_module.py").write_text("# Local module")
+
+            # Test detection
+            assert is_local_module("my_module", [temp_path])
+            assert not is_local_module("requests", [temp_path])
+
+            # Test package detection
+            pkg_dir = temp_path / "my_package"
+            pkg_dir.mkdir()
+            (pkg_dir / "__init__.py").write_text("")
+
+            assert is_local_module("my_package", [temp_path])

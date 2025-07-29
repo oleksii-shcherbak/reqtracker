@@ -307,7 +307,7 @@ class TestImports:
         assert hasattr(reqtracker, "__version__")
         assert hasattr(reqtracker, "__author__")
         assert hasattr(reqtracker, "__email__")
-        assert reqtracker.__version__ == "1.0.3"
+        assert reqtracker.__version__ == "1.0.4"
         assert reqtracker.__author__ == "Oleksii Shcherbak"
         assert "oleksii_shcherbak" in reqtracker.__email__
 

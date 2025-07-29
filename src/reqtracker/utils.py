@@ -185,6 +185,7 @@ def is_standard_library(module_name: str) -> bool:
         "_winapi",
         # Development and debugging
         "trace",
+        "tracemalloc",
         "tabnanny",
         "py_compile",
         "compileall",
@@ -212,3 +213,37 @@ def normalize_package_name(name: str) -> str:
     """
     # PEP 503 normalization: lowercase and replace underscore/dots with hyphens
     return re.sub(r"[-_.]+", "-", name).lower()
+
+
+def is_local_module(module_name: str, source_paths: list) -> bool:
+    """Check if a module is a local file in the project.
+
+    Args:
+        module_name: Name of the module to check
+        source_paths: List of source paths being analyzed
+
+    Returns:
+        True if the module is a local file, False otherwise
+    """
+    from pathlib import Path
+
+    for source_path in source_paths:
+        path = Path(source_path)
+        if path.is_file():
+            # Check the directory containing the file
+            search_dir = path.parent
+        else:
+            search_dir = path
+
+        # Check for module.py or module/__init__.py
+        if (search_dir / f"{module_name}.py").exists():
+            return True
+        if (search_dir / module_name / "__init__.py").exists():
+            return True
+
+        # Check subdirectories
+        for py_file in search_dir.rglob("*.py"):
+            if py_file.stem == module_name:
+                return True
+
+    return False

@@ -128,7 +128,7 @@ class Tracker:
 
         # noinspection PyUnreachableCode
         # Resolve package names
-        return self._resolve_package_names(all_imports)
+        return self._resolve_package_names(all_imports, paths)
 
     def _run_dynamic_analysis(self, paths: List[Path]) -> Set[str]:
         """Run dynamic analysis only."""
@@ -173,7 +173,7 @@ class Tracker:
 
         # noinspection PyUnreachableCode
         # Resolve package names
-        return self._resolve_package_names(all_imports)
+        return self._resolve_package_names(all_imports, paths)
 
     def _run_hybrid_analysis(self, paths: List[Path]) -> Set[str]:
         """Run both static and dynamic analysis, merging results."""
@@ -183,12 +183,24 @@ class Tracker:
         # Merge results
         return static_imports.union(dynamic_imports)
 
-    def _resolve_package_names(self, import_names: Set[str]) -> Set[str]:  # noqa
+    def _resolve_package_names(
+        self, import_names: Set[str], source_paths: List[Path] = None
+    ) -> Set[str]:  # noqa
         """Resolve import names to PyPI package names."""
         resolved = set()
 
+        # Use provided source paths or current directory
+        if source_paths is None:
+            source_paths = [Path.cwd()]
+
         for import_name in import_names:
             if import_name:  # Skip empty strings
+                # Skip local modules
+                from .utils import is_local_module
+
+                if is_local_module(import_name, source_paths):
+                    continue
+
                 package_name = resolve_package_name(import_name)
                 if package_name:  # Skip None results (stdlib modules)
                     resolved.add(package_name)

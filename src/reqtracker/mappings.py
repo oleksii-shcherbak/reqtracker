@@ -66,5 +66,13 @@ def resolve_package_name(import_name: str) -> Optional[str]:
     if is_standard_library(import_name):
         return None
 
+    # Filter out reqtracker itself to avoid self-reference
+    if import_name == "reqtracker":
+        return None
+
+    # Filter out namespace packages that are part of other packages
+    if import_name in {"mpl_toolkits"}:
+        return None
+
     # Check our mapping
     return IMPORT_TO_PACKAGE.get(import_name, import_name)

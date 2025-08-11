@@ -39,7 +39,7 @@ Examples:
     parser.add_argument(
         "--version",
         action="version",
-        version="%(prog)s 1.0.0",
+        version="%(prog)s 1.0.7",
     )
 
     parser.add_argument(
@@ -226,6 +226,14 @@ def cmd_track(args, config: Config) -> int:
     """
     paths = args.paths if args.paths else [Path.cwd()]
     mode = TrackingMode(args.mode)
+    # Show warning for experimental modes
+    if args.mode in ["dynamic", "hybrid"]:
+        if args.verbose:
+            print(
+                f"Warning: {args.mode} mode is experimental and may include "
+                "transitive dependencies.",
+                file=sys.stderr,
+            )
 
     if args.verbose:
         print(
@@ -309,6 +317,14 @@ def cmd_analyze(args, config: Config) -> int:
     """
     paths = args.paths if args.paths else [Path.cwd()]
     mode = TrackingMode(args.mode)
+    # Show warning for experimental modes
+    if args.mode in ["dynamic", "hybrid"]:
+        if args.verbose:
+            print(
+                f"Warning: {args.mode} mode is experimental and may include "
+                "transitive dependencies.",
+                file=sys.stderr,
+            )
 
     if args.verbose:
         print(

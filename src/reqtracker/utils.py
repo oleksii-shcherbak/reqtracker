@@ -272,6 +272,7 @@ def is_standard_library(module_name: str) -> bool:
         "zipfile",
         "zipimport",
         "zlib",
+        "pyexpat",
     }
 
     return top_level in stdlib_modules

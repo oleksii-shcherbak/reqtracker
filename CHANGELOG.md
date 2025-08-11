@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2025-08-10
+
+### Fixed
+- Fixed critical CLI bug where transitive dependencies were included
+- Fixed self-reference bug (reqtracker no longer includes itself)
+- Added pyexpat to stdlib module list
+- Filter out namespace packages like mpl_toolkits
+- Set static mode as default for reliable results
+
+### Changed
+- Static mode is now the default (was hybrid)
+- Dynamic and hybrid modes marked as experimental
+- Added warnings when using experimental modes
+
+### Known Issues
+- Dynamic and hybrid modes may include transitive dependencies
+- This will be fixed in v1.0.8
+
+
 ## [1.0.6] - 2025-08-05
 
 ### Fixed
@@ -97,6 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Thread-safe dynamic tracking
 - Performance optimized for large codebases
 
+[1.0.7]: https://github.com/oleksii-shcherbak/reqtracker/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/oleksii-shcherbak/reqtracker/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/oleksii-shcherbak/reqtracker/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/oleksii-shcherbak/reqtracker/compare/v1.0.3...v1.0.4
